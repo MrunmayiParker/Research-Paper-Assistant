@@ -1,0 +1,115 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PDF Text Extract</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+      background: #f4f4f8;
+      color: #333;
+    }
+    .header {
+      margin-bottom: 2rem;
+      padding: 1rem 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .header h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .header p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .page-text {
+      margin-bottom: 3rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+    .page-text::before {
+      content: attr(data-page);
+      display: block;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+    mark {
+      background-color: #fffb91;
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 id="doc-title">Loading title...</h1>
+    <p id="doc-authors">Loading authors...</p>
+  </div>
+  <div id="viewer"></div>
+
+  <script>
+    const paperId = new URLSearchParams(window.location.search).get("paper_id");
+    const url = `/chat/pdf_file/${paperId}`;
+    const viewer = document.getElementById("viewer");
+    const pageTextMap = {};  // Store plain text by page number
+
+    pdfjsLib.getDocument(url).promise.then(pdfDoc => {
+      viewer.innerHTML = "";
+
+      const renderPage = (pageNum) => {
+        pdfDoc.getPage(pageNum).then(page => {
+          page.getTextContent().then(textContent => {
+            const textItems = textContent.items.map(item => item.str).join(" ");
+
+            // Attempt to extract title and authors from first page
+            if (pageNum === 1) {
+              const lower = textItems.toLowerCase();
+              const title = textItems.split("\n")[0] || "Untitled Document";
+              const authorsMatch = lower.match(/by\s(.{5,100}?)\s/);
+
+              document.getElementById("doc-title").textContent = title.trim();
+              if (authorsMatch) {
+                document.getElementById("doc-authors").textContent = `By ${authorsMatch[1].trim()}`;
+              } else {
+                document.getElementById("doc-authors").textContent = "";
+              }
+            }
+
+            const div = document.createElement("div");
+            div.className = "page-text";
+            div.dataset.page = `Page ${pageNum}`;
+            div.textContent = textItems;
+            viewer.appendChild(div);
+            pageTextMap[pageNum] = div;
+          });
+        });
+      };
+
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        renderPage(i);
+      }
+    });
+
+    // Optional: highlight words from incoming chat
+    window.addEventListener("message", event => {
+      const { type, page, text } = event.data;
+      if (type === "highlight" && pageTextMap[page]) {
+        const div = pageTextMap[page];
+        const regex = new RegExp(`(${text})`, "gi");
+        div.innerHTML = div.textContent.replace(regex, '<mark>$1</mark>');
+        div.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  </script>
+</body>
+</html> -->

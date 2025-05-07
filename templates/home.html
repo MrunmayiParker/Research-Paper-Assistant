@@ -1,0 +1,35 @@
+
+
+
+
+ <!-- new home------------------------------------ -->
+
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center mt-10">
+    <!-- <h1 class="text-3xl font-bold mb-6">HOME</h1> -->
+
+    {% if current_user.is_authenticated %}
+        <p class="text-xl mb-4">Welcome, {{ current_user.username }}!</p>
+        <h2 class="text-2xl font-semibold mt-6 mb-4">📚 Recommended Papers</h2>
+        {% if recs %}
+            <ul class="text-left mx-auto max-w-2xl">
+                {% for rec in recs %}
+                    <li class="mb-3 p-3 border border-gray-300 rounded-lg">
+                        <strong>{{ rec.title }}</strong><br>
+                        <small><em>{{ rec.label }}</em></small><br>
+                        <p class="text-sm text-gray-700 mt-1">{{ rec.abstract[:300] }}...</p>
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No recommendations yet. Upload a paper to get started!</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+ 
