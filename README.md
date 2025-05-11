@@ -58,7 +58,9 @@ Create a virtual environment and install dependencies: Install dependencies usin
 
 1. Clone the repository and navigate to the project directory.
 
-2. Create a .env file in the project root and add the following variables:
+2. Download this - https://drive.google.com/drive/folders/1SndgqpAbhh5YjZbUiBGgzhaTMx_wTRmf?usp=sharing
+
+3. Create a .env file in the project root and add the following variables:
 
 - SECRET_KEY=your_flask_secret_key
 
@@ -68,9 +70,9 @@ Create a virtual environment and install dependencies: Install dependencies usin
 
 - OPENAI_API_KEY=your_openai_api_key
    
-3. Run the Flask app: `flask run`
+4. Run the Flask app: `flask run`
 
-4. Open your browser and visit `http://localhost:5000`
+5. Open your browser and visit `http://localhost:5000`
 
 ## ⚙️ NLP Workflows
 
